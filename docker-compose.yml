@@ -1,0 +1,33 @@
+services:
+  execution-service:
+    build: .
+    ports:
+      - "3003:3003"
+    environment:
+      PORT: 3003
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+      JWT_SECRET: local-development-secret
+      DYNAMODB_ENDPOINT: http://execution-db:8000
+      DYNAMODB_TABLE: oficina-work-orders
+    depends_on:
+      execution-db:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+
+  execution-db:
+    image: amazon/dynamodb-local:latest
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-inMemory"]
+    ports:
+      - "8000:8000"
+
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10

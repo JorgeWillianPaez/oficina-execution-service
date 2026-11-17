@@ -1,3 +1,8 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: oficina-execution-service
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,6 +24,7 @@ spec:
       labels:
         app: oficina-execution-service
     spec:
+      serviceAccountName: oficina-execution-service
       containers:
         - name: app
           image: ${IMAGE}

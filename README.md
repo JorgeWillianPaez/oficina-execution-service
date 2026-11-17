@@ -64,7 +64,7 @@ Cobertura atual: **98% de linhas** (15 testes) e 3 cenários BDD: diagnóstico e
 
 ## Deploy
 
-Mesma pipeline dos demais microsserviços: qualidade em todo pull request, deploy em `oficina-hml` a partir de `develop` e em `oficina-prod` a partir de `main`. A tabela `oficina-work-orders-<ambiente>` é criada pelo repositório `oficina-infra-db` e o acesso é concedido à role dos nós do cluster.
+Mesma pipeline dos demais microsserviços: qualidade em todo pull request, deploy em `oficina-hml` a partir de `develop` e em `oficina-prod` a partir de `main`. A tabela `oficina-work-orders-<ambiente>` é criada pelo repositório `oficina-infra-db` e o acesso é concedido por EKS Pod Identity à service account `oficina-execution-service`, com uma role IAM própria criada pelo `oficina-infra-k8s`.
 
 | Tipo | Nome |
 |---|---|

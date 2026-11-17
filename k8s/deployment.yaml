@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: oficina-execution-service
+automountServiceAccountToken: false
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -25,6 +26,7 @@ spec:
         app: oficina-execution-service
     spec:
       serviceAccountName: oficina-execution-service
+      automountServiceAccountToken: false
       containers:
         - name: app
           image: ${IMAGE}
